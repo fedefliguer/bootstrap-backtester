@@ -30,10 +30,10 @@ def descarga(tickers, empieza, termina):
 
 def build_individual_strategy(dataset, estrategia):
     '''
-    Agrega indicadores al dataset, precedidos del string 'i_', necesarios para el cálculo de las estrategias. Luego agrega estrategias al dataset, precedidas del string 'e_'
-
-    Recibe: dataset con información de un activo
-    Devuelve: el mismo dataset pero con columnas agregadas
+    Agrega indicadores al dataset, precedidos del string 'i_', necesarios para el cálculo de las estrategias.
+    Luego agrega estrategias al dataset, precedidas del string 'e_'.
+    Una estrategia es una columna compuesta por strings comenzados por C, M o V. El string comenzado por C significa compra, con un máximo de días según continúe el string. El string comenzado por M significa mantener. El string comenzado por V significa venta a partir de los días según se continúe.
+    Por ejemplo, 'C90' implica que ese día se comprará el activo, con un máximo de 90 días conservandolo. 'V7' implica que ese día se venderá el activo, si es que pasaron al menos 7 días desde la compra.
     '''
     if estrategia == 'e_RSI':
         # RSI
