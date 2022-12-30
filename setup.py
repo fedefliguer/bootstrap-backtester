@@ -1,5 +1,5 @@
 from setuptools import setup
-from bootstrap-backtester import __version__
+from bootstrap_backtester import __version__
 
 setup(
     name='bootstrap_backtester',
