@@ -202,7 +202,10 @@ def build_strategy_returns(df_trades, daily_returns, benchmark_returns, duplicad
         posible_tickers = df_trades[(day > df_trades.Date_compra)&(day <= df_trades.Date_venta)].Ticker.unique()
         if len(posible_tickers) == 0:
             ticker = np.nan
-            daily_return_strategy = fr / 365
+            if type(fr) == 'float':
+                daily_return_strategy = fr / 365
+            if fr == 'benchmark':
+                daily_return_strategy = benchmark_returns[day]
 
         elif len(posible_tickers) == 1:
             ticker = posible_tickers[0]
