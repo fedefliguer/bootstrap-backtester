@@ -193,6 +193,21 @@ def build_trades(dataset, estrategia):
         
     return dataset_trades    
 
+def filtro_fundamental(df_trades):
+    url = 'https://raw.githubusercontent.com/fedefliguer/trading_ideas/main/202302%20-%20analisis_fundamental.csv'
+    df_fundamental = pd.read_csv(url, index_col=0)
+    df_fundamental['Ticker'] = df_fundamental['ticker']
+    df_fundamental['Date'] = pd.to_datetime(df_fundamental['Date'])
+    df_fundamental = df_fundamental[['Ticker', 'Date', 'Posible_compra']]
+    dataset_trades = pd.merge_asof(left=df_trades.sort_values(by=['Date_compra']), 
+                  right=df_fundamental.sort_values(by=['Date']), 
+                  left_on='Date_compra',
+                  right_on='Date',
+                  by='Ticker')
+    
+    dataset_trades = dataset_trades[dataset_trades.Posible_compra == 'Sí'][['Ticker','Date_compra','Date_venta']]
+    return dataset_trades
+
 def build_strategy_returns(df_trades, daily_returns, benchmark_returns, duplicados = 'random', fr = 0):
     '''
     En base a los trades posibles, a la decisión en caso de tener más de un activo disponible el mismo día y a la tasa libre de riesgo, construye el set de retornos de la estrategia.
